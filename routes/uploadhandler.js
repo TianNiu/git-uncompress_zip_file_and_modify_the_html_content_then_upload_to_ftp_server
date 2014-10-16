@@ -7,6 +7,7 @@ var util = require('util');
 var unzip = require('unzip');
 var formidable = require('formidable');
 var cheerio = require('cheerio');
+var ftp = require('ftp');
 //时间格式模块
 //var dateFormat = require('dateformat');
 // exports.index = function(req, res) {
@@ -24,23 +25,29 @@ var cheerio = require('cheerio');
 //         });
 //     });
 // };
+var ftp_client = new ftp();
 /**
  * 遍历文件夹函数
  * @param  {[type]} path [description]
  * @return {[type]}      [description]
  */
 function walk(path) {
-    var dirList = fs.readdirSync(path);
-    dirList.forEach(function(item) {
-        if (fs.statSync(path + '/' + item).isDirectory()) {
-            walk(path + '/' + item);
-        } else {
-            file_ls.push(path + '/' + item);
-        }
-    });
-}
-
-function modifyIndexFile(index_path, the_index_path_in_folder) {
+        var dirList = fs.readdirSync(path);
+        dirList.forEach(function(item) {
+            if (fs.statSync(path + '/' + item).isDirectory()) {
+                walk(path + '/' + item);
+            } else {
+                file_ls.push(path + '/' + item);
+            }
+        });
+    }
+    /**
+     * 修改文件内容并重新写入
+     * @param  {[type]} index_path               [description]
+     * @param  {[type]} the_index_path_in_folder [description]
+     * @return {[type]}                          [description]
+     */
+function modifyIndexFile(index_path, the_index_path_in_folder, afterModified) {
     fs.readFile(index_path, "utf-8", function(err, data) {
         if (err) {
             throw err;
@@ -78,6 +85,7 @@ function modifyIndexFile(index_path, the_index_path_in_folder) {
                             throw err;
                         } else {
                             console.log("move over");
+                            afterModified();
                         }
                     });
                     console.log("文件路径是:" + index_path);
@@ -88,12 +96,45 @@ function modifyIndexFile(index_path, the_index_path_in_folder) {
     });
 
 }
+
+function function_name(argument) {
+    ftp_client.on('ready', function() {
+        ftp_client.list(function(err, list) {
+            if (err) throw err;
+            console.dir(list);
+            ftp_client.end();
+        });
+    });
+}
+exports.ftphandler = function(params) {
+    console.log(params);
+    /*ftp_client.on('ready', function() {
+        ftp_client.list(function(err, list) {
+            if (err) throw err;
+            console.dir(list);
+            ftp_client.end();
+        });
+        //ftp_client.put()
+    });*/
+    ftp_client.connect({
+        host: params.ftp_servers,
+        user: params.ftp_username,
+        password: params.ftp_password,
+    });
+}
 exports.main = function(req, res) {
     //var now_time = dateFormat((new Date), "yyyymmddHHMMss");
     //var project_name = req.body("name");
     //var project_link = req.param.link;
     //var project_file = req.files.file;
-
+    /*var ftp_username = req.body("ftp_username");
+    var ftp_password = req.body("ftp_password");
+    var project_name = req.body("ftp_username");
+    this.ftphandler({
+        ftp_username:ftp_username,
+        ftp_password:ftp_password,
+        project_name:project_name
+    });*/
     //console.log(project_name);
     //console.log(project_link);
     var form = new formidable.IncomingForm();
@@ -101,12 +142,16 @@ exports.main = function(req, res) {
     var the_index_path = "";
     //在解压后的文件夹中的index的路径
     var the_index_path_in_folder = "";
+    var form_fields = {};
 
     form.uploadDir = "./upload_tmp";
     form.keepExtensions = true;
     form.parse(req, function(err, fields, files) {
         //console.log(fields);
         //console.log(files.file);
+        /* */
+        form_fields = fields;
+        form_fields.filename = files.file.name;
         /* util.inspect 转化成字符串工具*/
         res.end(util.inspect({
             fields: fields,
@@ -119,6 +164,9 @@ exports.main = function(req, res) {
         //console.log(name);
         //console.log("file is:");
         //console.log(file.name);
+        if (file.name == "" || file.size <= 0) {
+            return;
+        }
         var old_path = file.path;
         var new_path = "upload_tmp/" + file.name;
         var new_path_dirpart = new_path.slice(0, -4);
@@ -143,7 +191,7 @@ exports.main = function(req, res) {
                         path: new_path_dirpart
                     }))
                     .on("close", function() {
-                        //console.log("haha  you just finish");
+                        //递归输出之后从zip中得到单个index.html文件
                         fs.createReadStream(new_path)
                             .pipe(unzip.Parse())
                             .on('entry', function(entry) {
@@ -181,8 +229,12 @@ exports.main = function(req, res) {
                                     var r = entry.pipe(streamWriteIndex);
                                     console.log("run here");
                                     r.on("close", function() {
-                                        modifyIndexFile(the_index_path, the_index_path_in_folder);
-                                        console.log("write end sooooooooooooooooooo");
+                                        modifyIndexFile(the_index_path, the_index_path_in_folder, function() {
+                                            //修改完毕之后处理ftp上传事务
+                                            console.log("write end sooooooooooooooooooo");
+                                            exports.ftphandler(form_fields);
+                                        });
+                                        //console.log("write end sooooooooooooooooooo");
                                     });
                                     // console.log(entry);
                                     // fs.writeFile(the_index_path, entry, "utf-8", function(err) {
