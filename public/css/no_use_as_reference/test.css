@@ -1,0 +1,14 @@
+body {
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+.main-section {
+  margin-bottom: 10px;
+}
+
+[class*="col"] {
+  background: #f7f7f7;
+  -webkit-background-clip: content-box;
+  background-clip: content-box;
+}

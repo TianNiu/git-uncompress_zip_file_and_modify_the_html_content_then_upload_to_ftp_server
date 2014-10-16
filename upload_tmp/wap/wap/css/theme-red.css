@@ -1,0 +1,299 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  line-height: 1.75;
+}
+
+button.reset {
+  background: none;
+  border: none;
+}
+
+.clearfix::before,
+.clearfix::after {
+  content: '';
+  display: table;
+}
+
+.clearfix::after {
+  clear: both;
+}
+
+
+#cover {
+  height: 0;
+  padding-bottom: 75%;
+}
+
+
+#page-header {
+  background: #d53f6e;
+  padding: 10px 5px;
+  position: relative;
+  z-index: 100;
+}
+
+#breadcrumbs {
+  float: left;
+}
+
+#nav-button {
+  float: right;
+  border: none;
+  outline: none;
+  width: 28px;
+  height: 28px;
+  text-indent: -999em;
+  padding: 0;
+  background: none;
+  position: relative;
+}
+
+#nav-button::after {
+  content: '';
+  display: block;
+  background: white;
+  width: 10px;
+  height: 10px;
+  position: absolute;
+  top: 2px;
+  box-shadow: 12px 0 white,                0 12px white,                12px 12px white;
+  margin-right: 20px;
+  padding: 0;
+}
+
+
+#breadcrumbs a {
+  text-decoration: none;
+  color: white;
+  display: inline-block;
+}
+
+#breadcrumbs a::after {
+  content: '>';
+  margin-left: 5px;
+}
+
+#breadcrumbs a:last-of-type::after {
+  display: none;
+}
+
+
+#page-nav {
+  background: #FFE9FD;
+  padding: 10px 0;
+  position: absolute;
+  width: 100%;
+  -webkit-transition: 300ms;
+  transition: 300ms;
+  -webkit-transform: translateY(-100%);
+  transform: translateY(-100%);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+#page-nav.active {
+  -webkit-transform: translateY(0);
+  transform: translateY(0);
+}
+
+#page-nav a {
+  float: left;
+  width: 25%;
+  padding: 0 5px;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #5C1A1A;
+  text-decoration: none;
+}
+
+
+#info {
+  padding: 0 12px;
+}
+
+.info-logo {
+  float: left;
+  margin-right: 1em;
+  width: 100px;
+  height: 100px;
+  border: 1px solid #C7C7C7;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.info-logo img {
+  width: 100%;
+}
+
+.info-name {
+  /* float: left; */
+  font-size: 18px;
+  position: relative;
+  top: 35px;
+  line-height: 1;
+}
+
+.info-name small {
+  display: block;
+  width: 12em;
+  height: 2em;
+  overflow: hidden;
+}
+
+.info-action {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.info-action a {
+  float: left;
+  width: 50%;
+  text-decoration: none;
+  padding: 10px 0;
+  background-size: contain;
+  background-repeat: no-repeat;
+  text-indent: -999em;
+}
+
+.info-action a:last-of-type {
+  border-left: none;
+}
+
+.info-action .tel {
+  background-image: url(../images/btn-tel.png);
+}
+
+.info-action .msg {
+  background-image: url(../images/btn-msg.png);
+}
+
+.logo-name-row {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.main-section {
+  padding: 0 10px;
+  margin-top: 10px;
+}
+
+.main-section-header h1 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: normal;
+  padding-left: 0.2em;
+}
+
+.main-section-header {
+  position: relative;
+  background: #d53f6e;
+  color: white;
+  font-weight: normal;
+  margin-left: -5px;
+  margin-right: -5px;
+  margin-top: -5px;
+  padding: 5px 0;
+}
+
+.main-section-header::after {
+  content: '▼';
+  display: block;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  z-index: 10;
+  -webkit-transition: 300ms;
+  transition: 300ms;
+}
+
+.main-section article {
+  background: #EEEEEE;
+  padding: 5px;
+  height: 42px;
+  overflow: hidden;
+  border: 1px solid #A5A5A5;
+}
+
+.main-section.active .main-section-header::after {
+  -webkit-transform: rotate(180deg);
+  transform: rotate(180deg);
+}
+
+.main-section.active article {
+  height: auto;
+}
+
+.main-section p {
+  margin: 0.5em 0;
+}
+
+#guestbook {
+  margin-top: 20px;
+}
+
+#guestbook form {
+  background: #EEEEEE;
+  border: 1px solid #A5A5A5;
+  padding: 10px;
+}
+
+#guestbook .form-control {
+  margin-top: 15px;
+}
+
+#guestbook label {
+  display: block;
+}
+
+#guestbook input,
+#guestbook select {
+  padding: 0.5em;
+  width: 100%;
+  border: 1px solid #ccc;
+}
+
+#guestbook select {
+  background: white;
+}
+
+#guestbook [type="submit"] {
+  background: #d53f6e;
+  color: white;
+  border: none;
+  width: 100%;
+  padding: 10px 0;
+}
+
+.guestbook-tips {
+  text-align: center;
+}
+
+#page-footer {
+  text-align: center;
+  margin-top: 30px;
+}
+
+#page-footer nav {
+  background: #d53f6e;
+  padding: 10px 0;
+}
+
+#page-footer nav a {
+  color: white;
+  text-decoration: none;
+}
+
+#page-footer nav a::after {
+  content: '|';
+  margin-left: 5px;
+}
+
+#page-footer nav a:last-of-type::after {
+  display: none;
+}

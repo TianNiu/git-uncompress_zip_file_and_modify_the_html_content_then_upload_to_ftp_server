@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+
+<!-- 关键字过滤-->
+
+<html lang="en">
+
+<head>
+
+    <title>DAI金邦网络订餐系统-安徽金邦网络科技订餐系统-dingcan.592look.com</title>
+    <!-- 引入bootstrap css-->
+    <link rel="stylesheet" href="css/lib/bootstrap.min.css" type="text/css" media="all">
+    <link rel="shortcut icon" type="image/x-icon" href="css/images/favicon.ico" />
+    <link rel="stylesheet" href="css/admin.css" type="text/css" media="all" />
+    <META name="keywords" content="金邦网络订餐系统,金邦网络,金邦网络科技,安徽金邦网络,安徽金邦网络科技">
+    <!--[if lt IE 9]>
+    <script src="js/modernizr.custom.js"></script>
+    <![endif]-->
+    <!--
+
+                                                                                               ##
+      ####            #                  #                    ###         ### ###               #
+     #   #                       #       #                     #           #   #                #
+     ##     ### ## # ##  ## ##  ###     # #   ## #  ##  ###    #  ####     #   #   ##  ###   ####
+      ###  #  #  ##   #   ##  #  #      ###    ##  #  # #  #   #   #  #    #####  #  # #  # #   #
+        ## #     #    #   #   #  #     #   #   #   ####  ###   #   #  #    #   #  ####  ### #   #
+     #   # #     #    #   #   #  #     #   #   #   #    #  #   #   #  #    #   #  #    #  # #  ##
+     ####   ### ###  ###  ####    ##  ### ### ###   ### ####  ### ### ##  ### ###  ### ####  ## ##
+                          #
+                         ###
+    -->
+    <!-- jquery lib-->
+    <script type="text/javascript" src="js/lib/jquery-1.11.1.min.js"></script>
+    <!-- jquery dateFormat plugin 日期格式化插件-->
+    <script type="text/javascript" src="js/lib/jquery-dateFormat.min.js"></script>
+    <!-- knockout.js-->
+    <script type='text/javascript' src='js/lib/knockout-3.1.0.js'></script>
+    <!-- knockout.mapping.js-->
+    <script type='text/javascript' src='js/lib/knockout.mapping.js'></script>
+    <!-- bootstrap-->
+    <script src="js/lib/bootstrap.min.js"></script>
+    <!-- 购物车插件，from dath-->
+    <script type="text/javascript" src="js/lib/jquery.dath_bottomcart.js"></script>
+    <!-- jquery cookie操作插件-->
+    <script type="text/javascript" src="js/lib/jquery.cookie.js"></script>
+    <!-- 个人js工具集-->
+    <script type="text/javascript" src="js/lib/dath_tools.js"></script>
+</head>
+
+<body>
+    <!---->
+    <!--
+
+
+##  ###             #                   #                     #####
+ ##  #                             #                           #   #
+ ##  #  ###  ## ## ##   #### ###  ###  ##   ###  ####          #   # ###  ## #
+ # # #  #  #  # #   #  #  #  #  #  #    #  #   #  #  #         ####  #  #  ##
+ # # #   ###  # #   #  # ##   ###  #    #  #   #  #  #  #####  #   #  ###  #
+ #  ##  #  #   #    #   #    #  #  #    #  #   #  #  #         #   # #  #  #
+###  #  ####   #   ###  #### ####   ## ###  ###  ### ##       #####  #### ###
+                       #   #
+                        ###
+        -->
+    <!-- 导航栏 -->
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="container">
+                <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="brand" href="index">金邦订餐</a>
+                <div class="nav-collapse collapse">
+                    <ul class="nav">
+                        <li><a href="index">首页</a>
+                        </li>
+                        <li class="active"><a href="admin">后台</a>
+                        </li>
+                    </ul>
+                </div>
+                <!--/.nav-collapse -->
+            </div>
+        </div>
+    </div>
+    <!---->
+    <!--
+
+
+  ####                         #
+ #   #               #
+#       ###  ####   ###  ###  ##  ####    ##  ## #
+#      #   #  #  #   #   #  #  #   #  #  #  #  ##
+#      #   #  #  #   #    ###  #   #  #  ####  #
+ #   # #   #  #  #   #   #  #  #   #  #  #     #
+  ###   ###  ### ##   ## #### ### ### ##  ### ###
+
+
+-->
+    <!---->
+    <div class="container">
+
+
+        <div class="logo">
+            <!--<img src="img/Logo_food_jingbang.png">-->
+            <!-- logo-->
+            <div class="pic_many_food"></div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="main">
+            <!--
+
+                ##
+  ###            #                  ###    #
+ #   #           #                   #             #
+#     # ## #  ####   ##  ## #        #    ##   ## ###
+#     #  ##  #   #  #  #  ##         #     #  #    #
+#     #  #   #   #  ####  #   #####  #     #   #   #
+ #   #   #   #  ##  #     #          #  #  #    #  #
+  ###   ###   ## ##  ### ###        ##### ### ##    ##
+
+
+        -->
+            <!--order_list-->
+            <div class="order_list">
+                <div class="orderls" data-bind="with:OrderListVM">
+                    <div class="orderls_title">订单信息:</div>
+                    <div data-bind="visible:OrderListItems().length<=0">没有订单信息</div>
+                    <div class="orderls_content" data-bind="foreach:OrderListItems">
+                        <div class="order_item">
+
+                            <p class="order_item_title" data-bind="click:$root.OrderListVM.toggleDetailInfo">
+                                用户名:
+                                <span data-bind="text:username" class="order_item_username"></span>
+                                <span data-bind="text:ordertime" class="order_item_time"></span>
+                                <span>订单号：</span>
+                                <span data-bind="text:order_number"></span>
+                            </p>
+                            <div>
+                                <table class="order_item_info" data-bind="foreach:orderlist">
+                                    <tr>
+                                        <td data-bind="text:foodname" width="60%"></td>
+                                        <td data-bind="text:foodnum" width="20%"></td>
+                                        <td data-bind="text:foodprice" width="20%"></td>
+                                    </tr>
+                                </table>
+                                <p class="order_item_bottom">
+                                    数量:
+                                    <span data-bind="text: total_num" class="order_item_totalNum"></span>
+                                    总价:
+                                    <span data-bind="text: total_charge" class="order_item_totalCharge"></span>
+
+                                    <span class="order_item_ispaid">
+                                        <!-- 付款状态: $root.OrderListVM.getPaidClass-->
+                                        <a data-bind="text: ispaid,style:{color:$root.OrderListVM.paid_class($data)},event:{mouseenter:$root.OrderListVM.changeIspaidText,mouseleave:$root.OrderListVM.changeIspaidText},click:$root.OrderListVM.payTheBill,disable:$parent.ispaid_disabled"></a>
+                                    </span>
+                                </p>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!--
+
+                  ##                             ##                                   ##
+#####    #         #                 ####  #      #             #####                  #
+ #   #             #      #         #   #         #             # # #        #         #
+ #   #  ##   ####  ###   ###        ##    ##   ####   ##          #    ###  ###  ###   #
+ ####    #  #  #   #  #   #          ###   #  #   #  #  #         #   #   #  #   #  #  #
+ #  #    #  # ##   #  #   #   #####    ##  #  #   #  #### #####   #   #   #  #    ###  #
+ #   #   #   #     #  #   #         #   #  #  #  ##  #            #   #   #  #   #  #  #
+###  ## ###  #### ### ##   ##       ####  ###  ## ##  ###        ###   ###    ## #### ###
+            #   #
+             ###
+            -->
+            <!--total 总计区域-->
+            <div class="side_total" data-bind="with:OrderListVM">
+                <div class="panel">
+                    <div class="total_title">订餐统计</div>
+                    <div class="total_content">
+                        <table data-bind="foreach:orderStaticsArr" class="total_static_list">
+                            <tr>
+                                <td data-bind="text:foodname"></td>
+                                <td data-bind="text:foodnum"></td>
+                            </tr>
+                        </table>
+                        <p class="total_static">
+                            <span>订餐总量：</span>
+                            <span data-bind="text:all_total_num"></span>
+                            <span>总价：</span>
+                            <span data-bind="text:all_total_charge"></span>
+
+                        </p>
+                    </div>
+                </div>
+                <div class="clearfix">
+                </div>
+            </div>
+            <!-- end of sidebar -->
+            <div class="cl">&nbsp;</div>
+        </div>
+
+        <!-- end of main -->
+        <!--
+
+
+#####                                     #
+ #  #              #                      #
+ #     ###   ###  ###   ##  ## #         # #   ## #  ##  ###
+ ###  #   # #   #  #   #  #  ##          ###    ##  #  # #  #
+ #    #   # #   #  #   ####  #   #####  #   #   #   ####  ###
+ #    #   # #   #  #   #     #          #   #   #   #    #  #
+###    ###   ###    ##  ### ###        ### ### ###   ### ####
+
+
+        -->
+        <!-- 底部footer copyright-->
+        <div class="footer">
+            <!-- 底部版权信息暂时注释-->
+            <!--  <p class="copy">Copyright &copy; 2014
+                <span>|</span> <a href="dingcan.asp" target="_blank" title="金邦网络订餐系统">金邦网络订餐系统</a>
+            </p> -->
+        </div>
+    </div>
+    </div>
+    <!--
+
+
+ ###  ####       #####
+  #  #   #        #   #        #    #
+  #  ##           #   #  ###  ###  ###   ###  #### ##
+  #   ###         ####  #   #  #    #   #   #  #  #  #
+  #     ## #####  #   # #   #  #    #   #   #  #  #  #
+  #  #   #        #   # #   #  #    #   #   #  #  #  #
+  #  ####        #####   ###    ##   ##  ###  ### ## ##
+  #
+##
+    -->
+    <!-- 菜单KO ViewModel-->
+    <script type="text/javascript" src="js/backend/ko_vm_all_orderlist.js"></script>
+    <!-- Run KO,so the VM above can work-->
+    <script type="text/javascript" src="js/backend/KO_Manage.js"></script>
+
+</body>
+
+</html>

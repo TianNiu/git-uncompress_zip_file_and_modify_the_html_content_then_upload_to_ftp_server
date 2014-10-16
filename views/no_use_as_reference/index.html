@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+
+<!-- 关键字过滤-->
+
+<html lang="en">
+
+<head>
+
+    <title>DAI金邦网络订餐系统-安徽金邦网络科技订餐系统-dingcan.592look.com</title>
+    <!-- 引入bootstrap css-->
+    <link rel="stylesheet" href="css/lib/bootstrap.min.css" type="text/css" media="all">
+    <link rel="shortcut icon" type="image/x-icon" href="css/images/favicon.ico" />
+    <link rel="stylesheet" href="css/style.css" type="text/css" media="all" />
+    <META name="keywords" content="金邦网络订餐系统,金邦网络,金邦网络科技,安徽金邦网络,安徽金邦网络科技">
+    <META name="Description" content="此系统为金邦网络内部员工订餐系统,安徽金邦网络科技有限公司是中网在线控股有限公司旗下的全资子公司，中网在线（NASDAQ：CNET），作为第一家为中小型企业和创业者提供核心服务的互联网集团公司，2010年成为网络招商行业在美国纳斯达克上市的首家中国企业，专注于通过互联网、云端技术与专业服务等营销渠道拓展服务来帮助在中国的创业者与中小企业圆成功梦想。
+      安徽金邦网络科技有限公司于2013年11月正式入驻合肥，其核心平台28商机网与连锁网（精品连锁项目大全），汇集了全国各行业的精品连锁项目、商机信息、行业资讯、热门专题、行业展会信息等。为创业者提供全面的连锁项目以及创业信息。
+      连锁网与各大门户以及搜索引擎（BAIDU、GOOGLE）保持着战略伙伴关系；通过技术手段实现连锁项目与创业者的精准匹配，以达到多赢的效果。 ">
+    <!--[if lt IE 9]>
+    <script src="js/modernizr.custom.js"></script>
+    <![endif]-->
+    <!--
+
+                                                                                               ##
+      ####            #                  #                    ###         ### ###               #
+     #   #                       #       #                     #           #   #                #
+     ##     ### ## # ##  ## ##  ###     # #   ## #  ##  ###    #  ####     #   #   ##  ###   ####
+      ###  #  #  ##   #   ##  #  #      ###    ##  #  # #  #   #   #  #    #####  #  # #  # #   #
+        ## #     #    #   #   #  #     #   #   #   ####  ###   #   #  #    #   #  ####  ### #   #
+     #   # #     #    #   #   #  #     #   #   #   #    #  #   #   #  #    #   #  #    #  # #  ##
+     ####   ### ###  ###  ####    ##  ### ### ###   ### ####  ### ### ##  ### ###  ### ####  ## ##
+                          #
+                         ###
+    -->
+    <!-- jquery lib-->
+    <script type="text/javascript" src="js/lib/jquery-1.11.1.min.js"></script>
+    <!-- jquery dateFormat plugin 日期格式化插件-->
+    <script type="text/javascript" src="js/lib/jquery-dateFormat.min.js"></script>
+    <!-- knockout.js-->
+    <script type='text/javascript' src='js/lib/knockout-3.1.0.js'></script>
+    <!-- knockout.mapping.js-->
+    <script type='text/javascript' src='js/lib/knockout.mapping.js'></script>
+    <!-- bootstrap-->
+    <script src="js/lib/bootstrap.min.js"></script>
+    <!-- 购物车插件，from dath-->
+    <script type="text/javascript" src="js/lib/jquery.dath_bottomcart.js"></script>
+    <!-- jquery cookie操作插件-->
+    <script type="text/javascript" src="js/lib/jquery.cookie.js"></script>
+    <!-- 个人js工具集-->
+    <script type="text/javascript" src="js/lib/dath_tools.js"></script>
+</head>
+
+<body>
+    <!---->
+    <!--
+
+
+##  ###             #                   #                     #####
+ ##  #                             #                           #   #
+ ##  #  ###  ## ## ##   #### ###  ###  ##   ###  ####          #   # ###  ## #
+ # # #  #  #  # #   #  #  #  #  #  #    #  #   #  #  #         ####  #  #  ##
+ # # #   ###  # #   #  # ##   ###  #    #  #   #  #  #  #####  #   #  ###  #
+ #  ##  #  #   #    #   #    #  #  #    #  #   #  #  #         #   # #  #  #
+###  #  ####   #   ###  #### ####   ## ###  ###  ### ##       #####  #### ###
+                       #   #
+                        ###
+        -->
+    <!-- 导航栏 -->
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="navbar-inner">
+            <div class="container">
+                <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="brand" href="index">金邦订餐</a>
+                <div class="nav-collapse collapse">
+                    <ul class="nav">
+                        <li class="active"><a href="index">首页</a>
+                        </li>
+                        <li><a href="admin">后台</a>
+                        </li>
+                    </ul>
+                </div>
+                <!--/.nav-collapse -->
+            </div>
+        </div>
+    </div>
+    <!---->
+    <!--
+
+
+  ####                         #
+ #   #               #
+#       ###  ####   ###  ###  ##  ####    ##  ## #
+#      #   #  #  #   #   #  #  #   #  #  #  #  ##
+#      #   #  #  #   #    ###  #   #  #  ####  #
+ #   # #   #  #  #   #   #  #  #   #  #  #     #
+  ###   ###  ### ##   ## #### ### ### ##  ### ###
+
+
+-->
+    <!---->
+    <div class="container">
+
+
+        <div class="logo">
+            <!--<img src="img/Logo_food_jingbang.png">-->
+            <!-- logo-->
+            <div class="pic_many_food"></div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="main ">
+            <!---->
+            <!--
+
+
+##     ##                          ###    #
+ ##   ##                            #             #
+ ##   ##   ##  ####   ## ##         #    ##   ## ###
+ # # # #  #  #  #  #   #  #         #     #  #    #
+ # # # #  ####  #  #   #  #  #####  #     #   #   #
+ #  #  #  #     #  #   #  #         #  #  #    #  #
+### # ###  ### ### ##   ####       ##### ### ##    ##
+
+
+            -->
+            <aside class="menuls">
+
+                <table class="table table-hover" data-bind="with:MenuListVM">
+                    <thead class="menu_head">
+                        <tr>
+                            <td></td>
+                            <td><a href="#" class="menu_head_foodname">食物名</a>
+                            </td>
+                            <td></td>
+                            <td><a href="#" class="menu_head_foodprice" data-bind="click:sortPrice">金额</a>
+                                <!-- <img src="img/upload_2_gray.png"> -->
+                            </td>
+                            <td></td>
+
+                        </tr>
+                    </thead>
+                    <tbody data-bind="foreach:menulists">
+                        <tr>
+                            <td></td>
+                            <td class="menuls_foodname" data-bind="text:foodname">
+                                <!-- <input data-bind="value: name" /> -->
+                                <!--  青椒肉丝 -->
+                            </td>
+                            <td class="menuls_shownum">
+                                <!-- 先永久隐藏-->
+                                <!-- <span data-bind="text:foodnum,visible:$parent.isNumZero($data)"></span> -->
+                                <!-- <select data-bind="options: $root.availableMeals, value: meal, optionsText: 'mealName'"></select> -->
+                            </td>
+                            <td class="menuls_money_char">￥
+                                <span class="menuls_formatted_price" data-bind="text:foodprice"></span>
+                            </td>
+                            <td>
+                                <a class="menuls_plus_icon" href="#" data-bind="click:function(e){$root.CartOrderVM.putIntoCart($data);$parent.addFoodnum($data);$parent.dropFoodIntoCart($data,$element)}">add</a>
+                            </td>
+                        </tr>
+                        <!-- <tr>
+                            <td></td>
+                            <td class="menuls_foodname">
+
+                                青椒肉丝
+                            </td>
+                            <td class="menuls_shownum">
+                                <span>0</span>
+                                <select data-bind="options: $root.availableMeals, value: meal, optionsText: 'mealName'"></select>
+                            </td>
+                            <td class="menuls_money_char">￥
+                                <span class="menuls_formatted_price"></span>
+                            </td>
+                            <td>
+                                <img class="menuls_plus_icon" src="img/add_pic1_with_ring.png">
+                            </td>
+                        </tr> -->
+                    </tbody>
+                </table>
+
+            </aside>
+            <!--
+
+                  ##                             ##
+#####    #         #                 ####  #      #             ### ###  #
+ #   #             #      #         #   #         #              #   #           #
+ #   #  ##   ####  ###   ###        ##    ##   ####   ##         #   #  ##   ## ###   ###  ## # ## ##
+ ####    #  #  #   #  #   #          ###   #  #   #  #  #        #####   #  #    #   #   #  ##   # #
+ #  #    #  # ##   #  #   #   #####    ##  #  #   #  #### #####  #   #   #   #   #   #   #  #    # #
+ #   #   #   #     #  #   #         #   #  #  #  ##  #           #   #   #    #  #   #   #  #     #
+###  ## ###  #### ### ##   ##       ####  ###  ## ##  ###       ### ### ### ##    ##  ###  ###    #
+            #   #                                                                               # #
+             ###                                                                                ##
+            -->
+            <!--right_side-->
+            <div class="right_side">
+                <div class="side_today" data-bind="with:OrderHistoryVM">
+                    <div class="side_title">今日订餐</div>
+                    <div class="today_content" data-bind="foreach:OrderHisItems">
+                        <div class="today_order_item">
+                            <p class="today_item_ordernumber">
+                                <span>订单号：</span>
+                                <span data-bind="text:order_number"></span>
+                            </p>
+                            <p class="today_order_title" data-bind="click:$root.OrderHistoryVM.toggleDetailInfo">
+                                <span>用户名:</span>
+                                <span data-bind="text:username"></span>
+                                <span>订餐时间:</span>
+                                <span data-bind="text:ordertime"></span>
+                            </p>
+                            <div>
+                                <table class="today_order_list" data-bind="foreach:orderlist">
+                                    <tr>
+                                        <td data-bind="text:foodname" width="60%"></td>
+                                        <td data-bind="text:foodnum" width="20%"></td>
+                                        <td data-bind="text:foodprice" width="20%"></td>
+                                    </tr>
+                                </table>
+                                <p class="today_order_bottom">
+                                    数量:
+                                    <span data-bind="text: total_num" class="today_item_totalNum"></span>
+                                    总价:
+                                    <span data-bind="text: total_charge" class="today_item_totalCharge"></span>
+
+                                    <span data-bind="text: ispaid" class="today_item_ispaid"></span>
+                                </p>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="side_thisweek">
+                    <p class="side_title">一周订餐记录</p>
+                    <p class="thisweek_content">无</p>
+                </div>
+            </div>
+            <!-- end of sidebar -->
+            <div class="cl">&nbsp;</div>
+        </div>
+
+        <!-- end of main -->
+        <!--
+
+
+#####                                     #
+ #  #              #                      #
+ #     ###   ###  ###   ##  ## #         # #   ## #  ##  ###
+ ###  #   # #   #  #   #  #  ##          ###    ##  #  # #  #
+ #    #   # #   #  #   ####  #   #####  #   #   #   ####  ###
+ #    #   # #   #  #   #     #          #   #   #   #    #  #
+###    ###   ###    ##  ### ###        ### ### ###   ### ####
+
+
+        -->
+        <!-- 底部footer copyright-->
+        <div class="footer">
+
+            <p class="copy">Copyright &copy; 2014
+                <span>|</span> <a href="dingcan.asp" target="_blank" title="金邦网络订餐系统">金邦网络订餐系统</a>
+            </p>
+        </div>
+    </div>
+    <!-- end of shell -->
+
+    <!--
+
+                ##
+  ###            #                    ####
+ #   #           #                   #   #            #
+#     # ## #  ####   ##  ## #       #      ###  ## # ###
+#     #  ##  #   #  #  #  ##        #      #  #  ##   #
+#     #  #   #   #  ####  #   ##### #       ###  #    #
+ #   #   #   #  ##  #     #          #   # #  #  #    #
+  ###   ###   ## ##  ### ###          ###  #### ###    ##
+
+
+    -->
+    <!--底部 左侧KO购物车-->
+
+    <div class="ko_cart" data-bind="with: CartOrderVM">
+
+        <!--购物车标题区域-->
+
+        <!-- <button data-bind="click: addSeat, enable: seats().length < 5">Reserve another seat</button> -->
+        <p class="cart_title">
+            <!--    -->
+            <img src="img/bottom_shopping_static_cart.gif?<%=now_time%>" class="cart_icon">共
+            <span data-bind="text: totalNum()" class="totalNum"></span>份食物,总计￥
+            <span data-bind="text: totalCharge()" class="totalCharge"></span>
+            <a href="#" data-bind="visible:foodlists().length>0,click:function(){downHideCart($element)}" class="down_cart">down</a>
+            <a href="#" data-bind="visible:foodlists().length>0,click:clearCart">清空</a>
+        </p>
+        <!--购物车列表区域-->
+        <table class="table table-condensed table-hover cart_tablels">
+            <thead>
+
+            </thead>
+            <tbody data-bind="template:{foreach: foodlists,beforeRemove: hideCartItem,afterAdd: showCartItem}">
+                <!-- data-bind="foreach: foodlists"-->
+                <tr>
+                    <td data-bind="text: foodname" class="cart_foodname">
+                        <!-- <input data-bind="value: name" /> -->
+                    </td>
+                    <td class="cart_plusandminus">
+                        <a href="#" data-bind="click:$root.CartOrderVM.minusFoodnum" class="foodnum_minus">-</a>
+                        <input data-bind="value: foodnum,event:{blur:$root.CartOrderVM.checkNumValid}" class="cart_foodnum" />
+                        <a href="#" data-bind="click:$root.CartOrderVM.addFoodnum" class="foodnum_plus">+</a>
+                        <!-- <select data-bind="options: $root.availableMeals, value: meal, optionsText: 'mealName'"></select> -->
+                    </td>
+                    <td class="cart_money_char">￥</td>
+                    <td data-bind="text: formattedPrice" class="cart_formatted_price"></td>
+                    <td class="cart_remove_item"><a href="#" data-bind="click: $root.CartOrderVM.removeList">x</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <!--购物车提交区域-->
+        <p class="cart_showbar_bottom">
+            <!--<label for="cart_username" class="popup_cart_namelabel">您的姓名：</label>-->
+            <input type="text" id="cart_username" class="cart_username" placeholder="您的姓名" data-bind="disable:username_disabled,value:$root.CartOrderVM.username,event:{keyup:function(){if(event.keyCode == 13) sendCartAjax($data);}}">
+            <a href="#" class="buy_all_incart btn btn-danger" data-bind="click:sendCartAjax">提交订单></a>
+        </p>
+    </div>
+
+
+
+    </div>
+    <!-- 购物车KO ViewModel-->
+    <script type="text/javascript" src="js/ko_vm_cart.js"></script>
+    <!-- 菜单KO ViewModel-->
+    <script type="text/javascript" src="js/ko_vm_menulists.js"></script>
+    <!-- 订餐历史KO ViewModel-->
+    <script type="text/javascript" src="js/ko_vm_order_history.js"></script>
+    <!-- Run KO,so the VM above can work-->
+    <script type="text/javascript" src="js/KO_Manage.js"></script>
+    <!-- 需要操作menulist的动作-->
+    <script type="text/javascript" src="js/menulist.js"></script>
+</body>
+
+</html>
