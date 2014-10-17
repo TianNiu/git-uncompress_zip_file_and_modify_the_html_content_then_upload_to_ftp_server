@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <link rel="stylesheet" href="">
+    <script type="text/javascript" src="js/lib/jquery-1.11.1.min.js"></script>
+</head>
+
+<body>
+    <p>你已经提交完毕</p>
+    <p>文件状态如下:</p>
+    <p><%=JSON.stringify(file_info)%></p>
+    <script type="text/javascript">
+    var soo=<%-JSON.stringify(file_info)%>;
+    if(JSON.parse){
+    	console.log("have JSON.parse");
+    	//console.log(JSON.parse(soo));
+    }
+    //document.write(soo);
+    console.log($.type(soo));
+    </script>
+    
+    
+
+</body>
+
+</html>

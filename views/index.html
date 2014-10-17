@@ -5,29 +5,36 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title></title>
-    <link rel="stylesheet" href="">
+    <link rel="stylesheet" href="css/index.css">
 </head>
 
 <body>
     <form action="uploadfile" method="post" enctype="multipart/form-data" accept-charset="utf-8">
-        <div>
+        <fieldset>
             <label for="name">项目名</label>
             <input type="text" name="name" value="" placeholder="项目名">
             <label for="link">项目链接</label>
             <input type="text" name="link" value="" placeholder="链接地址">
-            <div class="ftp-info">
-                <input type="text" name="ftp_username" value="" placeholder="ftp用户名">
-                <input type="text" name="ftp_password" value="" placeholder="ftp密码">
-                <select name="ftp_servers">
-                    <option value="localhost">默认服务器</option>
-                    <option value="noipaddress_here">没有服务器</option>
-                </select>
-                <input type="file" name="file" value="file" multiple="multiple" placeholder="项目压缩文件">
-            </div>
+        </fieldset>
 
-        </div>
-        <!-- 提交按钮-->
-        <input type="submit" name="submit" value="提交">
+        <fieldset class="ftp-info">
+            <input type="text" name="ftp_username" value="" placeholder="ftp用户名">
+            <input type="text" name="ftp_password" value="" placeholder="ftp密码">
+            <input type="file" name="file" value="file" multiple="multiple" placeholder="项目压缩文件">
+        </fieldset>
+
+        <fieldset>
+            <select name="ftp_servers">
+                <option value="localhost">默认服务器</option>
+                <option value="noipaddress_here">没有服务器</option>
+            </select>
+            <input type="text" name="ftp_custom_server" value="" placeholder="自定义服务器地址">
+            <input type="text" name="ftp_url" value="" placeholder="url地址">
+        </fieldset>
+        <fieldset>
+            <!-- 提交按钮-->
+            <input type="submit" name="submit" value="提交">
+        </fieldset>     
     </form>
 
 </body>

@@ -1,0 +1,12 @@
+html,body{
+	margin: 0px;
+	padding: 0px;
+	font-family: "微软雅黑";
+	font-size: 18px;
+}
+fieldset{
+	border: none;
+}
+input,select,label{
+	font-size: 18px;
+}

@@ -27,19 +27,133 @@ var ftp = require('ftp');
 // };
 var ftp_client = new ftp();
 /**
- * 遍历文件夹函数
+ * 遍历文件夹函数 深度优先
  * @param  {[type]} path [description]
  * @return {[type]}      [description]
  */
-function walk(path) {
-        var dirList = fs.readdirSync(path);
-        dirList.forEach(function(item) {
-            if (fs.statSync(path + '/' + item).isDirectory()) {
-                walk(path + '/' + item);
+function walk(file_ls, path, remote_path) {
+        console.log("so the walk path is:" + path);
+        var dirList = fs.readdirSync(path).toString().split(",");
+        //console.log("now dir info is:" + dirList.join("-"));
+        var items_length = dirList.length;
+        console.log("items_length is:" + items_length);
+        //dirList = dirList.slice(0, 10);
+
+        var order = 0;
+
+        function makeItemByOrder(dirList) {
+            console.log("now all in the folder is:" + dirList);
+            console.log("now folder name is:" + dirList[order]);
+            //items_length = dirList.length;
+            if (order < items_length) {
+                if (fs.statSync(path + '/' + dirList[order]).isDirectory()) {
+                    console.log(dirList[order] + "is dir!!!!!!");
+                    walk(file_ls, path + '/' + dirList[order], remote_path + '/' + dirList[order]);
+                    /*ftp_client.mkdir(remote_path+dirList[order],function(err){
+                        if(err){
+                            throw err;
+                        }else{
+                            console.log("create dir good");
+                        }
+                    });*/
+                    /*ftp_client.pwd(function(err,cwd){
+                        console.log("now cwd is:"+cwd);
+                    });
+                    //console.log("you do it");
+                    ftp_client.mkdir("soodoo", function(err) {
+                        if (err) {
+                            throw err;
+                        } else {
+                            console.log("create dir good");
+                        }
+                    });*/
+                    /*ftp_client.mkdir(dirList[order], function(err) {
+                        if (err) {
+                            throw err;
+                        } else {
+
+                            //order = order + 1;
+                            console.log("innner dirList[order] is:"+dirList[order]);
+                            walk(file_ls, path + '/' + dirList[order], remote_path + '/' + dirList[order]);
+                            //makeItemByOrder(dirList[order]);
+
+                            //order = order++;
+                            console.log("now the order is"+order);
+                            makeItemByOrder(dirList[++order]);
+                        }
+
+                    });*/
+                } else {
+                    file_ls.push(path + '/' + dirList[order]);
+                    //ftp_client.put(path + '/' + dirList[order], remote_path + '/' + dirList[order]);
+                    //ftp_client.put(path + '/' + dirList[order], remote_path + '/' + dirList[order]);
+
+                    console.log("innner dirList[order] is:" + dirList[order]);
+                    console.log("now the order is" + order);
+
+
+                }
+                order = order + 1;
+                console.log("you do not understand me:" + order);
+                makeItemByOrder(dirList);
+
             } else {
-                file_ls.push(path + '/' + item);
+
             }
-        });
+
+        }
+        makeItemByOrder(dirList);
+
+        /*arr = [1,2,3,4,5];
+        arr.forEach(function(item) {
+            setTimeout(function() {
+                alert(item);
+            }, 5000)
+        });*/
+
+
+        // dirList.forEach(function(item) {
+        //     console.log("i am the item :" + item);
+        //     if (fs.statSync(path + '/' + item).isDirectory()) {
+        //         console.log("the item is dir");
+        //         console.log("remote dir is:");
+        //         console.log(remote_path + '/' + item);
+        //         /*ftp_client.mkdir(item,function(err){
+        //             if(err){
+        //                 throw err;
+        //             }else{
+        //                 ftp_client.cwd(item);
+        //             }
+        //         });*/
+
+        //         ftp_client.mkdir(item, function(err) {
+        //             if (err) {
+        //                 throw err;
+        //             } else {
+
+        //             }
+        //         });
+        //         //walk(file_ls,path + '/' + item,remote_path+'/'+item);
+        //         //setTimeout(walk(file_ls,path + '/' + item,remote_path+'/'+item), 1000);
+        //         //walk(file_ls,path + '/' + item,remote_path+'/'+item);
+        //         /*ftp_client.mkdir(item,function(err){
+        //             if(err){
+        //                 throw err;
+        //             }else{
+        //                 ftp_client.cwd(item,function(err,currentDir){
+        //                     walk(file_ls,path + '/' + item,remote_path+'/'+item);            
+        //                 });
+        //             }
+        //         });*/
+
+        //     } else {
+        //         console.log("the item is file");
+        //         file_ls.push(path + '/' + item);
+        //         //ftp_client.put(path + '/' + item, remote_path + '/' + item);
+        //         ftp_client.put(path + '/' + item, remote_path + '/' + item);
+        //         //ftp_client.put(path + '/' + item, remote_path);
+        //     }
+        // });
     }
     /**
      * 修改文件内容并重新写入
@@ -97,31 +211,108 @@ function modifyIndexFile(index_path, the_index_path_in_folder, afterModified) {
 
 }
 
-function function_name(argument) {
-    ftp_client.on('ready', function() {
-        ftp_client.list(function(err, list) {
-            if (err) throw err;
-            console.dir(list);
-            ftp_client.end();
-        });
-    });
+function walkUploadFile(local_file_root, remote_file_root) {
+    var file_ls = [];
+    remote_file_root = ".";
+    walk(file_ls, local_file_root, remote_file_root);
+    console.log(file_ls);
 }
+
+function upToTheRootDir(path, _stop, callback) {
+    if (!_stop) {
+        console.log("path in the loop is:" + path);
+        if (path !== '/') {
+            ftp_client.cdup(function(err) {
+                if (err) {
+                    throw err;
+                } else {
+                    console.log("change the dit up");
+                    ftp_client.pwd(function(err, cwd) {
+                        if (err) {
+                            throw err;
+                        } else {
+                            upToTheRootDir(cwd, false, callback);
+                            console.log("it is not the root dir, now the dir is:" + path);
+                        }
+                    });
+
+                }
+            });
+
+        } else {
+            upToTheRootDir(path, true, callback);
+            console.log("it is the root dir" + path);
+        }
+    } else {
+        callback();
+    }
+}
+
 exports.ftphandler = function(params) {
-    console.log(params);
-    /*ftp_client.on('ready', function() {
-        ftp_client.list(function(err, list) {
-            if (err) throw err;
-            console.dir(list);
-            ftp_client.end();
+        var the_zip_filename = params.filename;
+        var uncompress_foldername = the_zip_filename.slice(0, -4);
+        var remote_url = params.ftp_servers + "/" + params.ftp_url;
+        //console.log(the_zip_filename.slice(0, -4));
+        //the_zip_filename.slice(0, -3);
+        console.log(params);
+        var _once = true;
+        ftp_client.on('ready', function() {
+            if (_once) {
+                ftp_client.pwd(function(err, cwd) {
+                    if (err) {
+                        throw err;
+                    } else {
+                        console.log("soga the initial dir is:" + cwd);
+                        //upto the user's root dir
+                        upToTheRootDir(cwd, false, function() {
+                            ftp_client.cwd(params.ftp_url, function(err, currentDir) {
+                                if (err) throw err;
+                                console.log("now the dir is:" + currentDir);
+                                //ftp_client.put();
+                                ftp_client.mkdir(uncompress_foldername, function(err) {
+                                    if (err) {
+                                        throw err;
+                                    }
+                                    ftp_client.cwd(uncompress_foldername, function(err, currentDir) {
+                                        if (err) {
+                                            throw err;
+                                        }
+
+                                        //console.log("compressed file name is:" + uncompress_foldername);
+                                        //console.log("after change the dit, now the dir is:" + currentDir);
+                                        var local_file_root = "./upload_tmp/" + uncompress_foldername;
+                                        console.log("local_file_root is:" + local_file_root);
+                                        walkUploadFile(local_file_root, uncompress_foldername);
+                                        /* log out the ftp server*/
+                                        ftp_client.logout(function() {
+                                            console.log("hah");
+                                        });
+                                    });
+                                    _once = false;
+                                });
+                                //walkUploadFile(uncompress_foldername, remote_url);
+                            });
+                        });
+                        //ftp_client.cwd();
+                    }
+                });
+            }
+
+
+
         });
-        //ftp_client.put()
-    });*/
-    ftp_client.connect({
-        host: params.ftp_servers,
-        user: params.ftp_username,
-        password: params.ftp_password,
-    });
-}
+        ftp_client.connect({
+            host: params.ftp_servers,
+            user: params.ftp_username,
+            password: params.ftp_password,
+        });
+    }
+    /**
+     * 接收表单信息，压缩文件并修改
+     * @param  {[type]} req [description]
+     * @param  {[type]} res [description]
+     * @return {[type]}     [description]
+     */
 exports.main = function(req, res) {
     //var now_time = dateFormat((new Date), "yyyymmddHHMMss");
     //var project_name = req.body("name");
@@ -153,10 +344,24 @@ exports.main = function(req, res) {
         form_fields = fields;
         form_fields.filename = files.file.name;
         /* util.inspect 转化成字符串工具*/
-        res.end(util.inspect({
+        res.render("result-of-upload.ejs", {
+            file_info: util.inspect({
+                fields: fields,
+                files: files
+            })
+        });
+        /*res.render("result-of-upload.ejs", {
+            file_info: JSON.stringify(fields)
+        });*/
+        /*res.render("uploadover.html",{
             fields: fields,
             files: files
-        }));
+        });*/
+        //console.log("");
+        /*res.end(util.inspect({
+            fields: fields,
+            files: files
+        }));*/
     });
 
     form.on('file', function(name, file) {
