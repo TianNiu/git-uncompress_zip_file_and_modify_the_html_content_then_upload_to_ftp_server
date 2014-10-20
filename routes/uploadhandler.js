@@ -48,16 +48,6 @@ function walk(file_ls, path, remote_path) {
             if (order < items_length) {
                 if (fs.statSync(path + '/' + dirList[order]).isDirectory()) {
                     console.log(dirList[order] + "is dir!!!!!!");
-                    ftp_client.mkdir(dirList[order], function(err) {
-                        if (err) {
-                            throw err;
-                        } else {
-                            console.log("create dir good");
-                            /*ftp_client.cwd(dirList[order],function(err){
-                                if(err){}
-                            });*/
-                        }
-                    });
                     walk(file_ls, path + '/' + dirList[order], remote_path + '/' + dirList[order]);
                     /*ftp_client.mkdir(remote_path+dirList[order],function(err){
                         if(err){
@@ -95,62 +85,8 @@ function walk(file_ls, path, remote_path) {
                     });*/
                 } else {
                     file_ls.push(path + '/' + dirList[order]);
-                    var remote_path_arr = remote_path.split('/');
-                    var so_the_remote_path = remote_path + '/' + dirList[order];
-                    //so_the_remote_path = so_the_remote_path.slice(2);
-                    console.log("so_the_remote_path:" + so_the_remote_path);
-                    ftp_client.pwd(function(cwd) {
-                        console.log("now nnnnnnnn dir is:" + cwd);
-                    });
-                    var change_num = 0;
-                    console.log("thttttt tttt   array is:" + remote_path_arr);
-
-                    function changeToDestFolder() {
-                        if (change_num < remote_path_arr.length) {
-                            console.log("change change change  the dir le :" + remote_path_arr[change_num]);
-                            ftp_client.cwd(remote_path_arr[change_num], function(err, currentDir) {
-                                if (err) {
-                                    throw err;
-                                } else {
-                                    console.log("kkkkkk i change the current dir to:" + currentDir);
-                                    //change_num++;
-                                    changeToDestFolder();
-                                }
-                                change_num = change_num + 1;
-                            });
-                        } else {
-                            ftp_client.cdup(function() {
-                                ftp_client.cdup(function() {
-                                    ftp_client.cdup(function() {
-                                        ftp_client.cdup(function() {
-
-                                        });
-                                    });
-                                });
-                            });
-                        }
-
-                    }
-                    changeToDestFolder();
-
-
-                    console.log("oooo  the dest folder is:" + remote_path + '/' + dirList[order]);
                     //ftp_client.put(path + '/' + dirList[order], remote_path + '/' + dirList[order]);
-                    ftp_client.put(path + '/' + dirList[order], dirList[order], function(err) {
-                        if (err) {
-                            throw err;
-                        } else {
-                            console.log("i have createn the file");
-                            /*ftp_client.rename(dirList[order],remote_path + '/' + dirList[order],function(err){
-                                if(err){
-                                    throw err;
-                                }else{
-                                    console.log("i have change their position");
-                                }
-                            });*/
-
-                        }
-                    });
+                    //ftp_client.put(path + '/' + dirList[order], remote_path + '/' + dirList[order]);
 
                     console.log("innner dirList[order] is:" + dirList[order]);
                     console.log("now the order is" + order);
@@ -277,7 +213,7 @@ function modifyIndexFile(index_path, the_index_path_in_folder, afterModified) {
 
 function walkUploadFile(local_file_root, remote_file_root) {
     var file_ls = [];
-    //remote_file_root = ".";
+    remote_file_root = ".";
     walk(file_ls, local_file_root, remote_file_root);
     console.log(file_ls);
 }
