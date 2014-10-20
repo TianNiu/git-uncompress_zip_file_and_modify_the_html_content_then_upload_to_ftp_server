@@ -8,6 +8,9 @@ var unzip = require('unzip');
 var formidable = require('formidable');
 var cheerio = require('cheerio');
 var ftp = require('ftp');
+var JSFtp = require("jsftp");
+
+var UploadHandlerWithJsftp = require("./UploadHandlerWithJsftp");
 //时间格式模块
 //var dateFormat = require('dateformat');
 // exports.index = function(req, res) {
@@ -48,14 +51,15 @@ function walk(file_ls, path, remote_path) {
             if (order < items_length) {
                 if (fs.statSync(path + '/' + dirList[order]).isDirectory()) {
                     console.log(dirList[order] + "is dir!!!!!!");
-                    walk(file_ls, path + '/' + dirList[order], remote_path + '/' + dirList[order]);
-                    /*ftp_client.mkdir(remote_path+dirList[order],function(err){
-                        if(err){
+
+                    ftp_client.mkdir(remote_path + '/' + dirList[order], function(err) {
+                        if (err) {
                             throw err;
-                        }else{
+                        } else {
                             console.log("create dir good");
                         }
-                    });*/
+                    });
+                    walk(file_ls, path + '/' + dirList[order], remote_path + '/' + dirList[order]);
                     /*ftp_client.pwd(function(err,cwd){
                         console.log("now cwd is:"+cwd);
                     });
@@ -162,60 +166,66 @@ function walk(file_ls, path, remote_path) {
      * @return {[type]}                          [description]
      */
 function modifyIndexFile(index_path, the_index_path_in_folder, afterModified) {
-    fs.readFile(index_path, "utf-8", function(err, data) {
-        if (err) {
-            throw err;
-        } else {
-            //console.log(data.toString());
-            /*var $addition = cheerio.load(data.toString(), {
-                decodeEntities: false
-            });*/
-            var $ = cheerio.load(data.toString(), {
-                decodeEntities: false
-            });
-            //$("nav a").text("soga");
-            //console.log();
-            //带插入的底部脚本文件
-            var file_addtion = fs.readFileSync("./config/addtion_1.html", "utf-8");
-            //console.log("附加文件:"+file_addtion);
-            $("head title").text($("nav#breadcrumbs a").text());
-            console.log($("head title").text());
-            console.log(index_path);
-            $("body").append(file_addtion.toString());
-            //console.log("输出脚本"+$("script").last().html());
-            //console.log($.html());
+        fs.readFile(index_path, "utf-8", function(err, data) {
+            if (err) {
+                throw err;
+            } else {
+                //console.log(data.toString());
+                /*var $addition = cheerio.load(data.toString(), {
+                    decodeEntities: false
+                });*/
+                var $ = cheerio.load(data.toString(), {
+                    decodeEntities: false
+                });
+                //$("nav a").text("soga");
+                //console.log();
+                //带插入的底部脚本文件
+                var file_addtion = fs.readFileSync("./config/addtion_1.html", "utf-8");
+                //console.log("附加文件:"+file_addtion);
+                $("head title").text($("nav#breadcrumbs a").text());
+                console.log($("head title").text());
+                console.log(index_path);
+                $("body").append(file_addtion.toString());
+                //console.log("输出脚本"+$("script").last().html());
+                //console.log($.html());
 
-            //console.log($addition.html());
-            //$.html();
-            var str = fs.realpathSync('.');
-            console.log("这个文件存在吗");
-            console.log(fs.existsSync("upload_tmp/wap/wap/index.html"));
-            fs.writeFile(index_path, $.html(), "utf-8", function(err) {
-                if (err) {
-                    throw err;
-                } else {
-                    fs.rename(index_path, the_index_path_in_folder, function(err) {
-                        if (err) {
-                            throw err;
-                        } else {
-                            console.log("move over");
-                            afterModified();
-                        }
-                    });
-                    console.log("文件路径是:" + index_path);
-                    console.log("真实路径是:" + the_index_path_in_folder);
-                }
-            });
-        }
-    });
+                //console.log($addition.html());
+                //$.html();
+                var str = fs.realpathSync('.');
+                console.log("这个文件存在吗");
+                console.log(fs.existsSync("upload_tmp/wap/wap/index.html"));
+                fs.writeFile(index_path, $.html(), "utf-8", function(err) {
+                    if (err) {
+                        throw err;
+                    } else {
+                        fs.rename(index_path, the_index_path_in_folder, function(err) {
+                            if (err) {
+                                throw err;
+                            } else {
+                                console.log("move over");
+                                afterModified();
+                            }
+                        });
+                        console.log("文件路径是:" + index_path);
+                        console.log("真实路径是:" + the_index_path_in_folder);
+                    }
+                });
+            }
+        });
 
-}
-
+    }
+    /**
+     * 遍历本地目录，在remote目录上建立文件夹
+     * @param  {[type]} local_file_root  [description]
+     * @param  {[type]} remote_file_root [description]
+     * @return {[type]}                  [description]
+     */
 function walkUploadFile(local_file_root, remote_file_root) {
     var file_ls = [];
     remote_file_root = ".";
     walk(file_ls, local_file_root, remote_file_root);
     console.log(file_ls);
+    return file_ls;
 }
 
 function upToTheRootDir(path, _stop, callback) {
@@ -247,7 +257,6 @@ function upToTheRootDir(path, _stop, callback) {
         callback();
     }
 }
-
 exports.ftphandler = function(params) {
         var the_zip_filename = params.filename;
         var uncompress_foldername = the_zip_filename.slice(0, -4);
@@ -282,11 +291,11 @@ exports.ftphandler = function(params) {
                                         //console.log("after change the dit, now the dir is:" + currentDir);
                                         var local_file_root = "./upload_tmp/" + uncompress_foldername;
                                         console.log("local_file_root is:" + local_file_root);
-                                        walkUploadFile(local_file_root, uncompress_foldername);
+                                        UploadHandlerWithJsftp(params,walkUploadFile(local_file_root, uncompress_foldername));
                                         /* log out the ftp server*/
-                                        ftp_client.logout(function() {
+                                        /*ftp_client.logout(function() {
                                             console.log("hah");
-                                        });
+                                        });*/
                                     });
                                     _once = false;
                                 });
@@ -305,6 +314,7 @@ exports.ftphandler = function(params) {
             host: params.ftp_servers,
             user: params.ftp_username,
             password: params.ftp_password,
+            port:16161
         });
     }
     /**

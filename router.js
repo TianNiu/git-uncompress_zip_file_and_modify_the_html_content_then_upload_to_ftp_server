@@ -39,6 +39,7 @@
 
 var index = require('./routes/index.js');
 var uploadhandler = require('./routes/uploadhandler.js');
+var DoUpload = require('./routes/DoUpload');
 //var project_image_display = require('./routes/common_routes/project_image_display.js');
 /**
  * resourceful 路由方式
@@ -50,6 +51,8 @@ exports.main = function(app) {
     app.get("/", index.main);
     app.get("/index", index.main);
     app.post("/uploadfile", uploadhandler.main);
+    /* for 练习*/
+    app.get("/i-want-upload", DoUpload.main);
     //menulist使用资源式路由
     //
     //app.resource('menulist', require('./routes/menulist.js'));
