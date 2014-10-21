@@ -37,12 +37,15 @@ function walk(file_ls, path, remote_path) {
 
                 ftp_client.mkdir(remote_path + '/' + dirList[order], function(err) {
                     if (err) {
-                        throw err;
+                        /* do not throw err*/
+                        //throw err;
                     } else {
                         console.log("create dir good");
                     }
+                    
                 });
                 walk(file_ls, path + '/' + dirList[order], remote_path + '/' + dirList[order]);
+                
             } else {
                 file_ls.push(path + '/' + dirList[order]);
                 //console.log("innner dirList[order] is:" + dirList[order]);
@@ -187,7 +190,7 @@ exports.ftphandler = function(params) {
                             //ftp_client.put();
                             ftp_client.mkdir(uncompress_foldername, function(err) {
                                 if (err) {
-                                    throw err;
+                                    //throw err;
                                 }
                                 ftp_client.cwd(uncompress_foldername, function(err, currentDir) {
                                     if (err) {
