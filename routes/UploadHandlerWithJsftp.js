@@ -1,3 +1,7 @@
+/************************************************
+ * 根据获得的路径数组上传文件
+ * @type {[type]}
+ ************************************************/
 var JSFtp = require("jsftp");
 
 /**
@@ -26,31 +30,39 @@ module.exports = function(params, local_url_ls) {
 
     function uploadOneByOne() {
         console.log(counter);
-
-        url_temp = local_url_ls[counter].replace(/upload_tmp/, "qqq1");
+        console.log("ftp_url ftp_url ftp_url ftp_url:" + params.ftp_url);
+        url_temp = local_url_ls[counter].replace(/upload_tmp/, params.ftp_url);
         var Ftp = createNewConn(params);
         //console.log("url_temp url_temp:" + url_temp);
-        Ftp.put(local_url_ls[counter], url_temp, function(err) {
-            if (!err) {
-                console.log("File transferred successfully!");
-                //counter++;
-                if (++counter < file_num) {
-                    //setTimeout(uploadOneByOne, 300);
-                    Ftp.raw.quit(function(err, data) {
-                        if (err) {
-                            return console.error(err);
-                        }
-                        console.log("Bye!");
-                        uploadOneByOne();
-                    });
+        Ftp.put(local_url_ls[counter], url_temp, function() {
+
+            console.log("File transferred successfully!");
+            //counter++;
+            if (++counter < file_num) {
+                //setTimeout(uploadOneByOne, 300);
+                //after one been sent, quit then connect again
+                Ftp.raw.quit(function(err, data) {
+                    if (err) {
+                        return console.error(err);
+                    }
+                    console.log("Bye!");
+                    uploadOneByOne();
+                });
 
 
-                }
-
-
-            }else{
-                
+            } else {
+                /* counter 达到file总数，即发送完毕时，终止连接*/
+                Ftp.raw.quit(function(err, data) {
+                    if (err) {
+                        return console.error(err);
+                    }
+                    console.log("Bye and the message from server is:" + data);
+                    //uploadOneByOne();
+                });
             }
+
+
+
 
         });
     }

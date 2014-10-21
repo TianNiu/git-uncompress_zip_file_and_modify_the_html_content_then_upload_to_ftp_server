@@ -10,3 +10,7 @@ fieldset{
 input,select,label{
 	font-size: 18px;
 }
+form{
+	width: 1000px;
+	margin: 0px auto;
+}

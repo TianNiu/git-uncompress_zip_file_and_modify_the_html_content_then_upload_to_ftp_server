@@ -34,9 +34,36 @@
         <fieldset>
             <!-- 提交按钮-->
             <input type="submit" name="submit" value="提交">
-        </fieldset>     
+        </fieldset>
     </form>
+    <!-- Bottom js-->
+    <script src="http://libs.baidu.com/jquery/1.9.1/jquery.min.js"></script>
+    <script>
+    window.jQuery || document.write('<script src="js/vendors/jquery-1.9.1.min.js"><\/script>')
+    </script>
+    <!-- page script-->
+    <script type="text/javascript">
+    /**
+     * 验证逻辑
+     * @return {[type]} [description]
+     */
+    function fieldIsValid() {
+        var ftp_username = $("input[name=ftp_username]").val();
+        var file = $("input[name=file]").val();
+        var ftp_url = $("input[name=ftp_url]").val();
+        //console.log("ftp_username ftp_username is:"+ftp_username);
+        //console.log("ftp_password ftp_password is:"+ftp_password);
+        //console.log("file file is:"+file);
+        return ftp_username&&file&&ftp_url;
+    }
+    $("form").submit(function(event) {
+        /* 返回值无效，阻止默认事件*/
+        if (!fieldIsValid()) {
+            event.preventDefault();
+        }
 
+    });;
+    </script>
 </body>
 
 </html>

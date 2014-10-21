@@ -50,6 +50,7 @@ exports.main = function(app) {
      */
     app.get("/", index.main);
     app.get("/index", index.main);
+    app.get("/index.html", index.main);
     app.post("/uploadfile", uploadhandler.main);
     /* for 练习*/
     app.get("/i-want-upload", DoUpload.main);
